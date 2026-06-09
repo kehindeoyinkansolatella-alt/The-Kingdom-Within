@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
+  <Subject>https://github.com/kehindeoyinkansolatella-alt/The-Kingdom-Within</Subject>
+  <Alias>https://github.com/kehindeoyinkansolatella-alt/The-Kingdom-Within</Alias>
+  <Alias>http://localhost:3000/</Alias>
+  <Property type="http://example.com/ns/version">0.1.0</Property>
+  <Property type="http://example.com/ns/maintainer">kehindeoyinkansolatella-alt</Property>
+  <Property type="http://example.com/ns/license">MIT</Property>
+  <Link rel="repository" href="https://github.com/kehindeoyinkansolatella-alt/The-Kingdom-Within.git"/>
+  <Link rel="service" href="http://localhost:3000/api" type="application/json"/>
+  <Link rel="documentation" href="https://github.com/kehindeoyinkansolatella-alt/The-Kingdom-Within#readme"/>
+  <Link rel="profile" href="http://localhost:3000/public/dashboard.html"/>
+  <Expires>2026-12-31T00:00:00Z</Expires>
+</XRD>
