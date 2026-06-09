@@ -10,5 +10,41 @@
   <Link rel="service" href="http://localhost:3000/api" type="application/json"/>
   <Link rel="documentation" href="https://github.com/kehindeoyinkansolatella-alt/The-Kingdom-Within#readme"/>
   <Link rel="profile" href="http://localhost:3000/public/dashboard.html"/>
+
+  <!-- Detailed project summary for developer onboarding -->
+  <Property type="http://example.com/ns/summary"><![CDATA[
+The Kingdom Within — membership/community application.
+
+Purpose: Manage users, paid memberships, scheduled sessions, attendance, and provide a member dashboard and notifications.
+
+Stack: Node.js + Express backend; static frontend under `public/` (vanilla JS); single-file JSON store `kingdom.json` managed by `database.js`; Stripe Checkout for payments; Nodemailer-based mailer for reminders; simple scheduler runs daily jobs.
+
+Run (dev): `node server.js` from project root. Expected local URL: http://localhost:3000
+Environment variables required: JWT_SECRET, STRIPE_SECRET, STRIPE_PUBLISHABLE, STRIPE_WEBHOOK_SECRET, GMAIL_USER (optional), GMAIL_APP_PASSWORD (optional).
+
+Data model: `kingdom.json` contains `users`, `sessions`, `attendance`, `newsletter`, and `_seq` counters. Persistence is file-based and not suitable for heavy concurrency.
+
+Key server endpoints:
+  - Auth: /api/auth/register, /api/auth/login, /api/auth/me
+  - Sessions: /api/sessions
+  - Attendance: POST /api/attendance/:sessionId, GET /api/attendance
+  - Payments: /api/checkout (create Stripe Checkout session)
+  - Webhooks: /api/stripe/webhook (handle checkout.session.completed, invoice.payment_succeeded, subscription events)
+
+Important files:
+  - server.js (app entry, routes, auth middleware, scheduler)
+  - database.js (load/save helpers, registerAttendance, getUserAttendance)
+  - mailer.js (email templates & senders)
+  - public/js/auth.js (signup/login flows)
+  - public/js/dashboard.js (dashboard rendering and API calls)
+  - kingdom.json (seeded data and storage)
+
+Recommended next actions:
+  - Configure mailer credentials in env and test email flows.
+  - Perform browser QA for auth, Stripe checkout, webhook handling, and attendance flows.
+  - Add README.md with run and env instructions and an `.env.example`.
+  - Consider migrating `kingdom.json` to SQLite/Postgres for production.
+  ]]></Property>
+
   <Expires>2026-12-31T00:00:00Z</Expires>
 </XRD>
