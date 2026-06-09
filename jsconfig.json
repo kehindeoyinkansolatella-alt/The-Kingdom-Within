@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "checkJs": false,
+    "noUnusedLocals": false
+  },
+  "exclude": ["node_modules"]
+}

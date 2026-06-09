@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Us — Kingdom Within</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="auth-page">
+
+  <!-- Visual Panel -->
+  <div class="auth-visual">
+    <div class="auth-visual-content">
+      <div class="auth-visual-logo">
+        Kingdom Within
+        <span>A Sacred Community</span>
+      </div>
+      <div class="auth-visual-quote">
+        "Your inner kingdom is not something to be built — it is something to be remembered."
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Panel -->
+  <div class="auth-form-panel">
+    <div class="auth-form-wrap">
+      <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-400);margin-bottom:32px">
+        ← Back to Home
+      </a>
+      <h1>Begin Your Journey</h1>
+      <p class="auth-subtitle">Create your account and step within</p>
+
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" placeholder="How shall we call you?" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Create a secure password" required autocomplete="new-password" minlength="8">
+        </div>
+        <div class="form-group">
+          <label for="plan">Membership Plan</label>
+          <select id="plan" name="plan">
+            <option value="seeker">Seeker — Free</option>
+            <option value="inner-circle">Inner Circle — £29/month</option>
+            <option value="luminary">Luminary — £79/month</option>
+          </select>
+        </div>
+        <p class="auth-error" id="signupError"></p>
+        <button type="submit" class="btn btn-primary form-submit">Enter the Kingdom</button>
+      </form>
+
+      <p class="auth-switch">Already a member? <a href="login.html">Sign in here</a></p>
+    </div>
+  </div>
+
+</div>
+<script src="js/auth.js"></script>
+</body>
+</html>

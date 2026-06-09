@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Kingdom Within</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="auth-page">
+
+  <!-- Visual Panel -->
+  <div class="auth-visual">
+    <div class="auth-visual-content">
+      <div class="auth-visual-logo">
+        Kingdom Within
+        <span>A Sacred Community</span>
+      </div>
+      <div class="auth-visual-quote">
+        "You carry within you the silence the whole world is searching for."
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Panel -->
+  <div class="auth-form-panel">
+    <div class="auth-form-wrap">
+      <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-400);margin-bottom:32px">
+        ← Back to Home
+      </a>
+      <h1>Welcome Back</h1>
+      <p class="auth-subtitle">Sign in to your sacred space</p>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password">
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:-8px;margin-bottom:20px">
+          <a href="#" style="font-size:.82rem;color:var(--gold-400);font-weight:600">Forgot password?</a>
+        </div>
+        <p class="auth-error" id="loginError"></p>
+        <button type="submit" class="btn btn-primary form-submit">Enter Your Kingdom</button>
+      </form>
+
+      <div style="text-align:center;margin-top:16px;padding:16px;background:var(--bg2);border-radius:var(--r2)">
+        <p style="font-size:.78rem;color:var(--textmuted);margin-bottom:6px;font-family:var(--facc);font-style:italic">Demo accounts</p>
+        <p style="font-size:.78rem;color:var(--text2)">member@example.com / password123</p>
+      </div>
+
+      <p class="auth-switch">New to Kingdom Within? <a href="signup.html">Create your account</a></p>
+    </div>
+  </div>
+
+</div>
+<script src="js/auth.js"></script>
+</body>
+</html>

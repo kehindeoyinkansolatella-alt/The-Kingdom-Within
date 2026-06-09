@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Kingdom Within</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="dash-layout" id="dashLayout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-hd">
+      <div class="sidebar-logo">
+        Kingdom Within
+        <span>Member Portal</span>
+      </div>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">K</div>
+      <div>
+        <div class="user-name" id="sidebarName">Member</div>
+        <div class="user-tier" id="sidebarTier">Inner Circle</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-sec-title">My Space</div>
+      <a class="slink active" data-panel="home">
+        <span class="si">🏠</span> Dashboard
+      </a>
+      <a class="slink" data-panel="sessions">
+        <span class="si">📹</span> Live Sessions
+      </a>
+      <a class="slink" data-panel="library">
+        <span class="si">📚</span> Session Library
+      </a>
+      <a class="slink" data-panel="summaries">
+        <span class="si">📝</span> Summaries
+      </a>
+
+      <div class="nav-sec-title">Community</div>
+      <a class="slink" href="#" target="_blank">
+        <span class="si">📸</span> Instagram
+      </a>
+      <a class="slink" href="#" target="_blank">
+        <span class="si">▶</span> YouTube
+      </a>
+      <a class="slink" href="#" target="_blank">
+        <span class="si">📘</span> Facebook
+      </a>
+
+      <div class="nav-sec-title">1:1 Sessions</div>
+      <a class="slink" data-panel="book" id="bookLink">
+        <span class="si">🗓</span> Book a Session
+      </a>
+
+      <div class="nav-sec-title">Account</div>
+      <a class="slink" data-panel="profile">
+        <span class="si">👤</span> My Profile
+      </a>
+      <a class="slink" data-panel="membership">
+        <span class="si">👑</span> Membership
+      </a>
+    </nav>
+
+    <div class="sidebar-ft">
+      <a class="slink" href="/" onclick="logout()">
+        <span class="si">↩</span> Sign Out
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="dash-main" id="dashMain">
+
+    <div class="dash-topbar">
+      <div>
+        <h1 id="panelTitle">Good morning ☽</h1>
+        <p class="sub" id="panelSub">Welcome back to your sacred space.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button id="mobileMenuBtn" onclick="toggleSidebar()" style="display:none;background:var(--gold-100);border:none;padding:10px 14px;border-radius:var(--r1);cursor:pointer;font-size:1.1rem">☰</button>
+        <a href="index.html#membership" class="btn btn-primary" style="font-size:.78rem;padding:10px 20px">Upgrade Plan</a>
+      </div>
+    </div>
+
+    <!-- HOME PANEL -->
+    <div id="panel-home">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-label">Sessions Attended</div>
+          <div class="stat-val" id="statAttended">0</div>
+          <div class="stat-sub">This month</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Summaries Read</div>
+          <div class="stat-val" id="statSummaries">0</div>
+          <div class="stat-sub">All time</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Next Session</div>
+          <div class="stat-val" style="font-size:1.1rem" id="statNext">—</div>
+          <div class="stat-sub" id="statNextSub">Check the calendar</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Membership</div>
+          <div class="stat-val" style="font-size:1.2rem;color:var(--gold-400)" id="statTier">Seeker</div>
+          <div class="stat-sub">Current plan</div>
+        </div>
+      </div>
+
+      <!-- Membership expiry banner — shown by JS when needed -->
+      <div id="expiryBanner" style="display:none"></div>
+
+      <div class="content-grid">
+        <!-- Upcoming Sessions — rendered by JS -->
+        <div class="panel">
+          <div class="panel-hd">
+            <h3>Upcoming Sessions</h3>
+            <span class="panel-action" onclick="showPanel('sessions')">View all →</span>
+          </div>
+          <div id="upcomingSessions"></div>
+        </div>
+
+        <!-- Recent Summaries — rendered by JS -->
+        <div class="panel">
+          <div class="panel-hd">
+            <h3>Recent Summaries</h3>
+            <span class="panel-action" onclick="showPanel('summaries')">View all →</span>
+          </div>
+          <div id="recentSummaries"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSIONS PANEL -->
+    <div id="panel-sessions" style="display:none">
+      <div class="panel">
+        <div class="panel-hd">
+          <h3>All Live Sessions</h3>
+        </div>
+        <p style="color:var(--textmuted);font-size:.88rem;margin-bottom:20px">Google Meet links become active 15 minutes before each session begins.</p>
+        <div id="allSessions">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- LIBRARY PANEL -->
+    <div id="panel-library" style="display:none">
+      <div class="panel">
+        <div class="panel-hd">
+          <h3>Session Recording Library</h3>
+        </div>
+        <p style="color:var(--textmuted);font-size:.88rem;margin-bottom:24px">All past sessions are stored here. Inner Circle and Luminary members have full access.</p>
+        <div id="libraryItems">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARIES PANEL -->
+    <div id="panel-summaries" style="display:none">
+      <div class="panel">
+        <div class="panel-hd">
+          <h3>Session Summaries</h3>
+        </div>
+        <p style="color:var(--textmuted);font-size:.88rem;margin-bottom:24px">Written reflections and key teachings from every session — your library of inner wisdom.</p>
+        <div id="allSummaries">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE PANEL -->
+    <div id="panel-profile" style="display:none">
+      <!-- Profile Header Card -->
+      <div class="panel">
+        <div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid var(--borderlight)">
+          <div class="avatar" style="width:80px;height:80px;font-size:2rem;font-weight:700" id="profileAvatar">K</div>
+          <div style="flex:1">
+            <h2 style="margin:0 0 8px;font-size:1.4rem" id="profileName">Member Name</h2>
+            <p id="profileTier" style="font-family:var(--facc);font-style:italic;color:var(--gold-400);margin:0">Inner Circle</p>
+            <p style="color:var(--textmuted);font-size:.85rem;margin:4px 0 0">
+              <span id="profileJoinedShort">Joined recently</span> · <span id="profileDaysActive">—</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="panel-hd">
+          <h3>Account Information</h3>
+        </div>
+
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" id="profileNameInput" placeholder="Your name">
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="profileEmailInput" placeholder="you@example.com" readonly style="background:var(--bg2);cursor:not-allowed">
+        </div>
+
+        <div class="form-group">
+          <label>Member Since</label>
+          <input type="text" id="profileJoined" readonly style="background:var(--bg2);cursor:not-allowed">
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:20px">
+          <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+          <button class="btn" style="background:var(--bg2);border:1px solid var(--border);color:var(--text2)" onclick="resetProfile()">Cancel</button>
+        </div>
+
+        <p style="color:var(--textmuted);font-size:.8rem;margin-top:16px;line-height:1.6">
+          To change your email or password, please contact us at support@kingdomwithin.com
+        </p>
+      </div>
+
+      <!-- Preferences Card -->
+      <div class="panel" style="margin-top:24px">
+        <div class="panel-hd">
+          <h3>Preferences</h3>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--borderlight)">
+          <div>
+            <h4 style="margin:0 0 4px;font-size:.95rem">Email Reminders</h4>
+            <p style="margin:0;font-size:.82rem;color:var(--textmuted)">Receive notifications 24 hours before sessions</p>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+            <input type="checkbox" id="prefSessionReminders" checked style="width:18px;height:18px;cursor:pointer">
+          </label>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 0">
+          <div>
+            <h4 style="margin:0 0 4px;font-size:.95rem">Membership Updates</h4>
+            <p style="margin:0;font-size:.82rem;color:var(--textmuted)">Notifications about renewal and billing</p>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+            <input type="checkbox" id="prefMembershipUpdates" checked style="width:18px;height:18px;cursor:pointer">
+          </label>
+        </div>
+
+        <button class="btn btn-primary" onclick="savePreferences()" style="margin-top:16px">Save Preferences</button>
+      </div>
+
+      <!-- Account Activity Card -->
+      <div class="panel" style="margin-top:24px">
+        <div class="panel-hd">
+          <h3>Account Activity</h3>
+        </div>
+
+        <div style="font-size:.88rem;color:var(--textmuted);padding:16px 0">
+          <p style="margin:0 0 12px"><strong>Last Sign In:</strong> <span id="lastSignIn">Today at 10:34 AM</span></p>
+          <p style="margin:0 0 12px"><strong>Sessions Attended:</strong> <span id="sessionsAttended" style="color:var(--text1);font-weight:600">—</span></p>
+          <p style="margin:0"><strong>Member Status:</strong> <span id="memberStatus" style="color:var(--gold-400);font-weight:700">Active</span></p>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="panel" style="margin-top:24px;border:2px solid #B85C52;border-radius:var(--r2)">
+        <div class="panel-hd">
+          <h3 style="color:#B85C52">Danger Zone</h3>
+        </div>
+
+        <p style="font-size:.85rem;color:var(--textmuted);margin-bottom:16px">
+          Deactivating your account is permanent and cannot be undone. All your data will be securely deleted.
+        </p>
+
+        <button class="btn" style="background:#B85C52;color:#fff" onclick="initiateAccountDeletion()">
+          Deactivate Account
+        </button>
+      </div>
+    </div>
+
+    <!-- MEMBERSHIP PANEL -->
+    <div id="panel-membership" style="display:none">
+      <div class="panel" style="max-width:600px">
+        <div class="panel-hd">
+          <h3>My Membership</h3>
+        </div>
+        <div style="background:linear-gradient(135deg,var(--brown-700),var(--brown-500));border-radius:var(--r2);padding:28px;margin-bottom:24px">
+          <p style="color:rgba(255,255,255,.65);font-size:.78rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px">Current Plan</p>
+          <h2 style="color:var(--gold-200);font-size:1.8rem;margin-bottom:4px" id="membershipTierDisplay">Inner Circle</h2>
+          <p style="color:rgba(255,255,255,.65);font-size:.88rem" id="membershipPriceDisplay">£29 / month</p>
+        </div>
+        <p style="color:var(--text2);font-size:.92rem;margin-bottom:24px">
+          Ready to deepen your journey? Upgrade to Luminary for 1:1 coaching, exclusive gatherings, and priority access to all sessions.
+        </p>
+        <a href="index.html#membership" class="btn btn-primary">View All Plans</a>
+      </div>
+    </div>
+
+    <!-- BOOKING PANEL -->
+    <div id="panel-book" style="display:none">
+      <div class="panel" style="max-width:680px">
+        <div class="panel-hd">
+          <h3>Book Your 1:1 Session</h3>
+        </div>
+        <div id="bookingContent"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── RENEWAL MODAL ── -->
+<div id="renewalModal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(31,15,6,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:24px">
+  <div style="background:#fff;border-radius:24px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.35)">
+    <div style="background:linear-gradient(160deg,#3D2314,#8B6134);padding:40px;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">👑</div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif;color:#fff;font-size:1.7rem;margin-bottom:8px">Your membership has expired</h2>
+      <p style="color:rgba(255,255,255,.75);font-size:.9rem;line-height:1.65">
+        Renew your membership to continue accessing live Google Meet sessions,
+        recordings, and session summaries.
+      </p>
+    </div>
+    <div style="padding:32px;text-align:center">
+      <p style="color:#7A5040;font-size:.88rem;margin-bottom:24px;line-height:1.65">
+        Your card will be charged <strong id="renewPrice">£29</strong>/month. Cancel at any time from your dashboard.
+      </p>
+      <a id="renewBtn" href="index.html#membership"
+         style="display:inline-flex;align-items:center;justify-content:center;width:100%;padding:16px;background:linear-gradient(135deg,#C9A96E,#A67C4A);color:#fff;border-radius:9999px;font-family:'Raleway',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;margin-bottom:12px">
+        Renew Membership
+      </a>
+      <button onclick="dismissRenewal()"
+              style="width:100%;padding:14px;background:transparent;border:1.5px solid #E8D5C0;border-radius:9999px;font-family:'Raleway',sans-serif;font-size:.82rem;font-weight:600;color:#9C7060;cursor:pointer;letter-spacing:.06em;text-transform:uppercase">
+        Maybe Later
+      </button>
+      <p style="font-size:.76rem;color:#9C7060;margin-top:16px">
+        Content is locked until membership is renewed.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>
