@@ -78,24 +78,32 @@ async function send(to, subject, bodyHtml) {
 
 // ── Email templates ──
 
-module.exports.sendSessionReminder = (user, session) => send(
-  user.email,
-  `✦ Reminder: "${session.title}" is tomorrow`,
-  `<h2>See you tomorrow ☽</h2>
-   <p>Dear ${user.name},</p>
-   <p>This is a gentle reminder that your <strong>${session.tier_access}</strong> session is happening tomorrow.</p>
-   <table style="width:100%;border-collapse:collapse;margin:20px 0;background:#F5EAD8;border-radius:12px;overflow:hidden">
-     <tr><td style="padding:14px 18px;font-weight:700;color:#8B6134;width:40%">Session</td><td style="padding:14px 18px">${session.title}</td></tr>
-     <tr style="background:#EDD5B0"><td style="padding:14px 18px;font-weight:700;color:#8B6134">Date & Time</td><td style="padding:14px 18px">${session.session_date}</td></tr>
-     <tr><td style="padding:14px 18px;font-weight:700;color:#8B6134">Duration</td><td style="padding:14px 18px">${session.duration} minutes</td></tr>
-   </table>
-   <p style="text-align:center;margin:28px 0">
-     <a href="${session.meet_link}" class="btn">Join on Google Meet</a>
-   </p>
-   <p style="color:#9C7060;font-style:italic;font-size:.9rem;text-align:center">
-     "Arrive as you are. The kingdom within needs no preparation."
-   </p>`
-);
+module.exports.sendSessionReminder = (user, session, daysUntil = 1) => {
+  const subject = daysUntil === 1
+    ? `✦ Reminder: "${session.title}" is tomorrow`
+    : `✦ Reminder: "${session.title}" in ${daysUntil} day${daysUntil === 1 ? '' : 's'}`;
+
+  const whenText = daysUntil === 1 ? 'tomorrow' : `in ${daysUntil} day${daysUntil === 1 ? '' : 's'}`;
+  const intro = daysUntil === 1 ? '<h2>See you tomorrow ☽</h2>' : `<h2>Reminder — ${whenText}</h2>`;
+
+  const body = `
+    ${intro}
+    <p>Dear ${user.name},</p>
+    <p>This is a gentle reminder that your <strong>${session.tier_access}</strong> session is happening ${whenText}.</p>
+    <table style="width:100%;border-collapse:collapse;margin:20px 0;background:#F5EAD8;border-radius:12px;overflow:hidden">
+      <tr><td style="padding:14px 18px;font-weight:700;color:#8B6134;width:40%">Session</td><td style="padding:14px 18px">${session.title}</td></tr>
+      <tr style="background:#EDD5B0"><td style="padding:14px 18px;font-weight:700;color:#8B6134">Date & Time</td><td style="padding:14px 18px">${session.session_date}</td></tr>
+      <tr><td style="padding:14px 18px;font-weight:700;color:#8B6134">Duration</td><td style="padding:14px 18px">${session.duration} minutes</td></tr>
+    </table>
+    <p style="text-align:center;margin:28px 0">
+      <a href="${session.meet_link}" class="btn">${daysUntil === 1 ? 'Join on Google Meet' : 'View session details'}</a>
+    </p>
+    <p style="color:#9C7060;font-style:italic;font-size:.9rem;text-align:center">
+      "Arrive as you are. The kingdom within needs no preparation."
+    </p>`;
+
+  return send(user.email, subject, body);
+};
 
 module.exports.sendRenewalReminder = (user, daysLeft, expiryDate) => send(
   user.email,

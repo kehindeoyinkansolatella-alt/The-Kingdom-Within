@@ -53,7 +53,7 @@ module.exports = {
   findUserById: (id) => load().users.find(u => u.id === id),
   createUser: ({ name, email, password, tier }) => {
     const data = load();
-    const user = { id: nextId(data, 'users'), name, email, password, tier, created_at: new Date().toISOString() };
+    const user = { id: nextId(data, 'users'), name, email, password, tier, created_at: new Date().toISOString(), preferences: { sessionReminders: true, membershipUpdates: true } };
     data.users.push(user);
     save(data);
     return user;

@@ -317,17 +317,20 @@ function runDailyEmailJobs() {
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   for (const user of users) {
-    // Session reminders — 24h before each upcoming session
+    // Session reminders — daily during the week leading up to each upcoming session (7..1 days)
     sessions
       .filter(s => s.status === 'upcoming' && s.meet_link)
       .forEach(s => {
         const sessionDate = new Date(s.session_date);
-        const hoursUntil  = (sessionDate - now) / 36e5;
-        if (hoursUntil >= 20 && hoursUntil <= 26) {
+        // Calculate days until session (rounded up)
+        const daysUntil = Math.ceil((sessionDate - now) / 864e5);
+        if (daysUntil >= 1 && daysUntil <= 7) {
           const tierLevel = { Seeker: 0, 'Inner Circle': 1, Luminary: 2 };
           const required  = tierLevel[s.tier_access] ?? 0;
-          if ((tierLevel[user.tier] ?? 0) >= required) {
-            mailer.sendSessionReminder(user, s);
+          // Respect user preference (default true)
+          const wantsReminders = (user.preferences && typeof user.preferences.sessionReminders === 'boolean') ? user.preferences.sessionReminders : true;
+          if ((tierLevel[user.tier] ?? 0) >= required && wantsReminders) {
+            mailer.sendSessionReminder(user, s, daysUntil);
           }
         }
       });
