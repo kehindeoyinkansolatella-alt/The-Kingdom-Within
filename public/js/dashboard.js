@@ -236,21 +236,24 @@ async function renderHome(sessions, user) {
 
   const sContainer = get('recentSummaries');
   if (sContainer) {
-    const recent = past.filter(s => s.summary).slice(0, 3);
-    sContainer.innerHTML = recent.map(s => {
-        const parsed = parseSessionDate(s.session_date);
-        return `
-          <div class="summary-item">
-            <h4>${s.title}</h4>
-            <p>${s.summary}</p>
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px">
-              <div class="summary-date">${parsed.date}</div>
-              ${s.recording_link && isMembershipActive(user) && (user.tier !== 'Seeker' || s.tier_access === 'All Members')
-                ? `<a href="${s.recording_link}" class="meet-btn" style="font-size:.72rem;padding:5px 11px;background:linear-gradient(135deg,var(--gold-400),var(--gold-500))" target="_blank">▶ Watch</a>`
-                : s.recording_link ? lockedBtn('Renew to watch') : ''}
-            </div>
-          </div>`;
-      }).join('');
+    // Show recent recorded meetings (latest 3 recordings)
+    const recentRecordings = past.filter(s => s.recording_link && s.recording_link !== '#').slice(0, 3);
+    sContainer.innerHTML = recentRecordings.length
+      ? recentRecordings.map(s => {
+          const parsed = parseSessionDate(s.session_date);
+          return `
+            <div class="summary-item">
+              <h4>${s.title}</h4>
+              <p style="color:var(--textmuted);margin:6px 0">${parsed.date} · ${s.duration || 60} min · ${s.tier_access}</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px">
+                <div class="summary-date">${parsed.date}</div>
+                ${s.recording_link && isMembershipActive(user) && (user.tier !== 'Seeker' || s.tier_access === 'All Members')
+                  ? `<a href="${s.recording_link}" class="meet-btn" style="font-size:.72rem;padding:6px 12px;background:linear-gradient(135deg,var(--gold-400),var(--gold-500))" target="_blank">▶ Watch Recording</a>`
+                  : s.recording_link ? lockedBtn('Renew to watch') : ''}
+              </div>
+            </div>`;
+        }).join('')
+      : `<p style="color:var(--textmuted);font-size:.88rem;padding:20px 0">No recordings yet. Past sessions with recordings will appear here.</p>`;
   }
 
   // Stats
