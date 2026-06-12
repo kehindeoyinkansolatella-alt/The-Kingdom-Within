@@ -46,5 +46,20 @@ Recommended next actions:
   - Consider migrating `kingdom.json` to SQLite/Postgres for production.
   ]]></Property>
 
+  <!-- System functionality overview -->
+  <Property type="http://example.com/ns/system-functionality"><![CDATA[
+System Functionality:
+- Authentication & Authorization: user registration, login, JWT-based sessions, role support (member, admin).
+- Membership Management: plans, subscriptions, Stripe Checkout integration, billing sync, trial/discount handling.
+- Session Scheduling: create/update/delete sessions, recurring sessions, session metadata (time, capacity).
+- Attendance Tracking: RSVP, check-in, attendance history per user and per session.
+- Notifications & Reminders: email reminders (mailer.js), webhook-triggered notifications, scheduled daily jobs.
+- Payments & Webhooks: create checkout sessions, verify webhook events, update membership status on success.
+- Admin Dashboard & Reporting: usage metrics, attendance reports, subscription statuses, manual adjustments.
+- Persistence & Backups: file-based `kingdom.json` with export/backup endpoints; recommended DB migration path.
+- API & Public Routes: RESTful API under `/api/*`, public dashboard and static content under `/public/`.
+- Health & Scheduler: basic health check endpoints, cron-like scheduler for reminders and cleanup.
+  ]]></Property>
+
   <Expires>2026-12-31T00:00:00Z</Expires>
 </XRD>
